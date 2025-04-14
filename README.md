@@ -36,7 +36,7 @@ The platform supports various user workflows:
 ## Interface Mockups
 
 ### System Workflow Diagram
-<img src="system-workflow.svg" alt="Workflow Diagram">
+<img src="agent-workflow.png" alt="Workflow Diagram">
 
 ### Dashboard Interface
 ![Dashboard Interface](dashboard-mockup.svg)
