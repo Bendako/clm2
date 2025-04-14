@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f5f7fa"/>
+
+  <!-- Title -->
+  <text x="600" y="50" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#232f3e">User Agent Creation & Improvement Workflow (UI Flow)</text>
+
+  <!-- Styles for boxes and text -->
+  <style>
+    .step-box {
+      rx: 10; 
+      ry: 10; 
+      stroke: #444; 
+      stroke-width: 1; 
+      fill-opacity: 0.9;
+    }
+    .step-title {
+      font-family: Arial; 
+      font-size: 16px; 
+      font-weight: bold; 
+      text-anchor: middle; 
+      fill: white;
+    }
+    .step-desc {
+      font-family: Arial; 
+      font-size: 13px; 
+      text-anchor: middle; 
+      fill: white;
+    }
+    .arrow {
+        stroke: #333;
+        stroke-width: 2.5;
+        marker-end: url(#arrowhead);
+    }
+    .loop-arrow {
+        stroke: #ac4eb8; /* Purple for iteration */
+        stroke-width: 2.5;
+        fill: none;
+        marker-end: url(#loop-arrowhead);
+    }
+    .loop-text {
+      font-family: Arial; 
+      font-size: 14px; 
+      fill: #ac4eb8;
+      text-anchor: middle;
+    }
+  </style>
+
+  <!-- Arrowhead Definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+    <marker id="loop-arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#ac4eb8"/>
+    </marker>
+  </defs>
+
+  <!-- Workflow Steps -->
+  <!-- Step 1: Load Model -->
+  <rect x="50" y="100" width="180" height="100" class="step-box" fill="#0073bb"/>
+  <text x="140" y="135" class="step-title">1. Load Model</text>
+  <text x="140" y="160" class="step-desc">User selects or uploads</text>
+  <text x="140" y="175" class="step-desc">a base LLM via UI</text>
+
+  <!-- Step 2: Insert Company Data -->
+  <rect x="300" y="100" width="180" height="100" class="step-box" fill="#0073bb"/>
+  <text x="390" y="135" class="step-title">2. Insert Data</text>
+  <text x="390" y="160" class="step-desc">User uploads company</text>
+  <text x="390" y="175" class="step-desc">data (img, pdf, csv)</text>
+
+  <!-- Step 3: System Processing -->
+  <rect x="550" y="100" width="180" height="100" class="step-box" fill="#545B64"/>
+  <text x="640" y="135" class="step-title">3. System Process</text>
+  <text x="640" y="160" class="step-desc">System identifies types,</text>
+  <text x="640" y="175" class="step-desc">stores & embeds data</text>
+
+  <!-- Step 4: Create Agent -->
+  <rect x="800" y="100" width="180" height="100" class="step-box" fill="#ff9900"/>
+  <text x="890" y="135" class="step-title">4. Create Agent</text>
+  <text x="890" y="160" class="step-desc">User provides instructions</text>
+  <text x="890" y="175" class="step-desc">to configure the agent</text>
+  
+  <!-- Step 5: Test Agent -->
+  <rect x="550" y="280" width="220" height="130" class="step-box" fill="#1e8900"/>
+  <text x="660" y="315" class="step-title">5. Test & Benchmark Agent</text>
+  <text x="660" y="340" class="step-desc">System runs standard tests.</text>
+  <text x="660" y="355" class="step-desc">User creates/runs custom</text>
+  <text x="660" y="370" class="step-desc">tests & benchmarks.</text>
+  <text x="660" y="385" class="step-desc">Results displayed in UI.</text>
+
+  <!-- Step 6: Deploy Agent -->
+  <rect x="550" y="490" width="180" height="100" class="step-box" fill="#232f3e"/>
+  <text x="640" y="525" class="step-title">6. Deploy Agent</text>
+  <text x="640" y="550" class="step-desc">User deploys the tested</text>
+  <text x="640" y="565" class="step-desc">agent to AWS via UI</text>
+
+  <!-- Arrows -->
+  <line x1="230" y1="150" x2="300" y2="150" class="arrow"/>
+  <line x1="480" y1="150" x2="550" y2="150" class="arrow"/>
+  <line x1="730" y1="150" x2="800" y2="150" class="arrow"/>
+  
+  <!-- Down arrow from Create Agent to Test Agent -->
+  <line x1="890" y1="200" x2="890" y2="345" class="arrow"/>
+  <line x1="890" y1="345" x2="770" y2="345" class="arrow"/>
+  
+  <!-- Down arrow from Test Agent to Deploy Agent -->
+  <line x1="640" y1="410" x2="640" y2="490" class="arrow"/>
+
+  <!-- Feedback Loop for Continuous Improvement -->
+  <path d="M 550 540 C 400 540, 350 650, 390 650 C 430 650, 400 200, 390 200" class="loop-arrow"/>
+  <text x="280" y="425" class="loop-text">Data Updates Trigger</text>
+  <text x="280" y="445" class="loop-text">New Iteration</text>
+
+  <!-- Legend -->
+  <rect x="950" y="680" width="15" height="15" fill="#0073bb" class="step-box"/>
+  <text x="975" y="693" font-family="Arial" font-size="14" fill="#232f3e">User Input/Config</text>
+  
+  <rect x="950" y="705" width="15" height="15" fill="#545B64" class="step-box"/>
+  <text x="975" y="718" font-family="Arial" font-size="14" fill="#232f3e">System Process</text>
+  
+  <rect x="950" y="730" width="15" height="15" fill="#ff9900" class="step-box"/>
+  <text x="975" y="743" font-family="Arial" font-size="14" fill="#232f3e">Agent Creation</text>
+  
+  <rect x="950" y="755" width="15" height="15" fill="#1e8900" class="step-box"/>
+  <text x="975" y="768" font-family="Arial" font-size="14" fill="#232f3e">Testing/Validation</text>
+
+  <rect x="950" y="780" width="15" height="15" fill="#232f3e" class="step-box"/>
+  <text x="975" y="793" font-family="Arial" font-size="14" fill="#232f3e">Deployment</text>
+  
+  <path d="M 950 810 L 965 810" stroke="#ac4eb8" stroke-width="2.5" marker-end="url(#loop-arrowhead)"/>
+  <text x="975" y="815" font-family="Arial" font-size="14" fill="#ac4eb8">Improvement Loop</text>
+
+</svg> 
