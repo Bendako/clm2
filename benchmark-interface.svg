@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#f5f7fa"/>
+  
+  <!-- Header -->
+  <rect width="1200" height="60" fill="#232f3e"/>
+  <text x="30" y="38" font-family="Arial" font-size="22" font-weight="bold" fill="white">AWS LLM Continuous Training Platform</text>
+  
+  <!-- Top right user info -->
+  <circle cx="1150" cy="30" r="20" fill="#d5dbdb"/>
+  <text x="1150" y="35" font-family="Arial" font-size="12" text-anchor="middle" fill="#232f3e">JD</text>
+  <text x="1100" y="38" font-family="Arial" font-size="14" fill="white">John Doe</text>
+  
+  <!-- Left Sidebar Navigation -->
+  <rect x="0" y="60" width="220" height="740" fill="#1a2733"/>
+  
+  <!-- Navigation items -->
+  <text x="20" y="150" font-family="Arial" font-size="16" fill="#8d9dab">Dashboard</text>
+  <text x="20" y="200" font-family="Arial" font-size="16" fill="#8d9dab">Data Management</text>
+  <text x="20" y="240" font-family="Arial" font-size="16" fill="#8d9dab">Model Registry</text>
+  <text x="20" y="280" font-family="Arial" font-size="16" fill="#8d9dab">Training Pipeline</text>
+  <rect x="0" y="300" width="220" height="50" fill="#31465f"/>
+  <text x="20" y="330" font-family="Arial" font-size="16" fill="white">Benchmarks</text>
+  <text x="20" y="370" font-family="Arial" font-size="16" fill="#8d9dab">Deployment</text>
+  <text x="20" y="410" font-family="Arial" font-size="16" fill="#8d9dab">Monitoring</text>
+  <text x="20" y="450" font-family="Arial" font-size="16" fill="#8d9dab">Settings</text>
+  
+  <!-- Main Content Area -->
+  <rect x="220" y="60" width="980" height="60" fill="white"/>
+  <text x="250" y="100" font-family="Arial" font-size="24" font-weight="bold" fill="#232f3e">Benchmark Management</text>
+  
+  <!-- Tabs -->
+  <rect x="220" y="120" width="980" height="40" fill="white"/>
+  <rect x="250" y="125" width="150" height="35" rx="4" fill="#0073bb"/>
+  <text x="325" y="148" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="white">Available Benchmarks</text>
+  
+  <rect x="410" y="125" width="150" height="35" rx="4" fill="#f0f2f5"/>
+  <text x="485" y="148" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Test Results</text>
+  
+  <rect x="570" y="125" width="150" height="35" rx="4" fill="#f0f2f5"/>
+  <text x="645" y="148" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Create Benchmark</text>
+  
+  <!-- Search and Filter -->
+  <rect x="240" y="170" width="300" height="40" rx="4" fill="white" stroke="#e1e4e8"/>
+  <text x="260" y="195" font-family="Arial" font-size="14" fill="#8d9dab">Search benchmarks...</text>
+  
+  <rect x="550" y="170" width="180" height="40" rx="4" fill="white" stroke="#e1e4e8"/>
+  <text x="580" y="195" font-family="Arial" font-size="14" fill="#232f3e">Filter by Type</text>
+  
+  <rect x="740" y="170" width="180" height="40" rx="4" fill="white" stroke="#e1e4e8"/>
+  <text x="770" y="195" font-family="Arial" font-size="14" fill="#232f3e">Sort by: Latest</text>
+  
+  <rect x="940" y="170" width="230" height="40" rx="4" fill="#1e8900"/>
+  <text x="1055" y="195" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="white">+ Create New Benchmark</text>
+  
+  <!-- Standard Benchmarks Section -->
+  <text x="250" y="240" font-family="Arial" font-size="18" font-weight="bold" fill="#232f3e">Standard Benchmarks</text>
+  
+  <!-- Benchmark Cards - Standard -->
+  <rect x="250" y="260" width="280" height="180" rx="4" fill="white" stroke="#e1e4e8"/>
+  <rect x="250" y="260" width="280" height="40" rx="4" fill="#f0f2f5"/>
+  <text x="270" y="285" font-family="Arial" font-size="16" font-weight="bold" fill="#232f3e">MMLU Benchmark</text>
+  <text x="270" y="320" font-family="Arial" font-size="14" fill="#5b5b5b">Massive Multitask Language</text>
+  <text x="270" y="340" font-family="Arial" font-size="14" fill="#5b5b5b">Understanding benchmark</text>
+  <text x="270" y="380" font-family="Arial" font-size="14" fill="#232f3e">57 categories, 15,908 questions</text>
+  <rect x="250" y="400" width="130" height="30" rx="4" fill="#0073bb"/>
+  <text x="315" y="420" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Run Test</text>
+  <rect x="390" y="400" width="130" height="30" rx="4" fill="#f0f2f5"/>
+  <text x="455" y="420" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Details</text>
+  
+  <rect x="550" y="260" width="280" height="180" rx="4" fill="white" stroke="#e1e4e8"/>
+  <rect x="550" y="260" width="280" height="40" rx="4" fill="#f0f2f5"/>
+  <text x="570" y="285" font-family="Arial" font-size="16" font-weight="bold" fill="#232f3e">HELM Benchmark</text>
+  <text x="570" y="320" font-family="Arial" font-size="14" fill="#5b5b5b">Holistic Evaluation of</text>
+  <text x="570" y="340" font-family="Arial" font-size="14" fill="#5b5b5b">Language Models</text>
+  <text x="570" y="380" font-family="Arial" font-size="14" fill="#232f3e">42 scenarios, multiple metrics</text>
+  <rect x="550" y="400" width="130" height="30" rx="4" fill="#0073bb"/>
+  <text x="615" y="420" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Run Test</text>
+  <rect x="690" y="400" width="130" height="30" rx="4" fill="#f0f2f5"/>
+  <text x="755" y="420" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Details</text>
+  
+  <rect x="850" y="260" width="280" height="180" rx="4" fill="white" stroke="#e1e4e8"/>
+  <rect x="850" y="260" width="280" height="40" rx="4" fill="#f0f2f5"/>
+  <text x="870" y="285" font-family="Arial" font-size="16" font-weight="bold" fill="#232f3e">GSM8K Benchmark</text>
+  <text x="870" y="320" font-family="Arial" font-size="14" fill="#5b5b5b">Grade School Math</text>
+  <text x="870" y="340" font-family="Arial" font-size="14" fill="#5b5b5b">Word Problems</text>
+  <text x="870" y="380" font-family="Arial" font-size="14" fill="#232f3e">8,500 high-quality math problems</text>
+  <rect x="850" y="400" width="130" height="30" rx="4" fill="#0073bb"/>
+  <text x="915" y="420" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Run Test</text>
+  <rect x="990" y="400" width="130" height="30" rx="4" fill="#f0f2f5"/>
+  <text x="1055" y="420" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Details</text>
+  
+  <!-- Custom Benchmarks Section -->
+  <text x="250" y="470" font-family="Arial" font-size="18" font-weight="bold" fill="#232f3e">Custom Benchmarks</text>
+  
+  <!-- Benchmark Cards - Custom -->
+  <rect x="250" y="490" width="280" height="180" rx="4" fill="white" stroke="#e1e4e8"/>
+  <rect x="250" y="490" width="280" height="40" rx="4" fill="#f0f2f5"/>
+  <text x="270" y="515" font-family="Arial" font-size="16" font-weight="bold" fill="#232f3e">Customer Service QA</text>
+  <text x="270" y="550" font-family="Arial" font-size="14" fill="#5b5b5b">Company-specific customer</text>
+  <text x="270" y="570" font-family="Arial" font-size="14" fill="#5b5b5b">support evaluation</text>
+  <text x="270" y="610" font-family="Arial" font-size="14" fill="#232f3e">350 questions, updated 3 days ago</text>
+  <rect x="250" y="630" width="130" height="30" rx="4" fill="#0073bb"/>
+  <text x="315" y="650" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Run Test</text>
+  <rect x="390" y="630" width="130" height="30" rx="4" fill="#f0f2f5"/>
+  <text x="455" y="650" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Edit</text>
+  
+  <rect x="550" y="490" width="280" height="180" rx="4" fill="white" stroke="#e1e4e8"/>
+  <rect x="550" y="490" width="280" height="40" rx="4" fill="#f0f2f5"/>
+  <text x="570" y="515" font-family="Arial" font-size="16" font-weight="bold" fill="#232f3e">Product Knowledge Base</text>
+  <text x="570" y="550" font-family="Arial" font-size="14" fill="#5b5b5b">Technical accuracy on</text>
+  <text x="570" y="570" font-family="Arial" font-size="14" fill="#5b5b5b">company products</text>
+  <text x="570" y="610" font-family="Arial" font-size="14" fill="#232f3e">520 questions, updated 1 week ago</text>
+  <rect x="550" y="630" width="130" height="30" rx="4" fill="#0073bb"/>
+  <text x="615" y="650" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Run Test</text>
+  <rect x="690" y="630" width="130" height="30" rx="4" fill="#f0f2f5"/>
+  <text x="755" y="650" font-family="Arial" font-size="14" text-anchor="middle" fill="#232f3e">Edit</text>
+  
+  <rect x="850" y="490" width="280" height="180" rx="4" fill="white" stroke="#e1e4e8" stroke-dasharray="5,5"/>
+  <text x="990" y="580" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#8d9dab">+ Add New Custom</text>
+  <text x="990" y="600" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#8d9dab">Benchmark</text>
+  
+  <!-- Recent Test Results Section -->
+  <text x="250" y="700" font-family="Arial" font-size="18" font-weight="bold" fill="#232f3e">Recent Test Results</text>
+  
+  <!-- Test Results Table Headers -->
+  <rect x="250" y="720" width="880" height="40" rx="4" fill="#f0f2f5"/>
+  <text x="270" y="745" font-family="Arial" font-size="14" font-weight="bold" fill="#232f3e">Benchmark</text>
+  <text x="470" y="745" font-family="Arial" font-size="14" font-weight="bold" fill="#232f3e">Model Version</text>
+  <text x="650" y="745" font-family="Arial" font-size="14" font-weight="bold" fill="#232f3e">Date</text>
+  <text x="800" y="745" font-family="Arial" font-size="14" font-weight="bold" fill="#232f3e">Score</text>
+  <text x="900" y="745" font-family="Arial" font-size="14" font-weight="bold" fill="#232f3e">Status</text>
+  <text x="1050" y="745" font-family="Arial" font-size="14" font-weight="bold" fill="#232f3e">Actions</text>
+  
+  <!-- Test Results Row 1 -->
+  <rect x="250" y="760" width="880" height="40" rx="0" fill="white" stroke="#e1e4e8"/>
+  <text x="270" y="785" font-family="Arial" font-size="14" fill="#232f3e">Customer Service QA</text>
+  <text x="470" y="785" font-family="Arial" font-size="14" fill="#232f3e">company-llm-v2.3</text>
+  <text x="650" y="785" font-family="Arial" font-size="14" fill="#232f3e">Today 10:15 AM</text>
+  <text x="800" y="785" font-family="Arial" font-size="14" font-weight="bold" fill="#1e8900">94.3%</text>
+  <rect x="900" y="770" width="80" height="20" rx="10" fill="#1e8900" opacity="0.2"/>
+  <text x="940" y="785" font-family="Arial" font-size="12" text-anchor="middle" fill="#1e8900">Passed</text>
+  <text x="1050" y="785" font-family="Arial" font-size="14" fill="#0073bb">View Details</text>
+</svg>
