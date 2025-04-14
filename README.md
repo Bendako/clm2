@@ -36,10 +36,7 @@ The platform supports various user workflows:
 ## Interface Mockups
 
 ### System Workflow Diagram
-![Workflow Diagram](workflow-diagram.svg)
-
-### Agent Creation Workflow
-![Agent Creation Workflow](agent-workflow.svg)
+![Workflow Diagram](system-workflow.svg)
 
 ### Dashboard Interface
 ![Dashboard Interface](dashboard-mockup.svg)
