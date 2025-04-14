@@ -32,12 +32,8 @@ The platform supports various user workflows:
 4. **Model Deployment** - Configuration, execution, and post-deployment management
 5. **Continuous Improvement** - Data updates, incremental training, validation and deployment
 6. **Emergency Response** - Alert detection, immediate response, root cause analysis
-7. **LLM Agent Creation & Deployment** - End-to-end workflow for creating AI agents from model selection to AWS deployment
 
 ## Interface Mockups
-
-### LLM Agent Creation & Deployment Workflow
-![User System Workflow](user-system-workflow.svg)
 
 ### Workflow Diagram
 ![Workflow Diagram](workflow-diagram.svg)
