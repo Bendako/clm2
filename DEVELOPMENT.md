@@ -46,6 +46,21 @@ git checkout -b development
 git pull origin master
 ```
 
+### 1.2.1 Git Best Practices
+For a clean and manageable repository, follow these Git best practices:
+
+1. **Add files before installing dependencies**:
+   - Always add important files to Git (`git add`) and commit them (`git commit`) before running any build or install commands that generate additional files
+   - This ensures only source files are tracked, not generated dependencies
+
+2. **Use .gitignore properly**: 
+   - Maintain a comprehensive .gitignore file for excluding build artifacts, dependencies, and environment-specific files
+   - Example exclusions: node_modules/, backend/venv/, __pycache__/, .next/
+
+3. **Commit logical changes**:
+   - Make small, logical commits instead of large ones covering multiple features
+   - Write clear commit messages describing what changed and why
+
 ### 1.3 Project Structure Setup
 ```bash
 # Create the basic directory structure
