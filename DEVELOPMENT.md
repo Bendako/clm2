@@ -12,8 +12,8 @@ This approach enables faster development cycles and thorough testing before movi
 - [x] 1.3 Project Structure Setup - Completed
 - [x] 1.4 Backend Setup - Completed
 - [x] 1.5 Frontend Setup - Completed
-- [ ] 1.6 Docker Configuration
-- [ ] 1.7 Start Local Development
+- [x] 1.6 Docker Configuration - Completed
+- [x] 1.7 Start Local Development - Completed
 
 ## Table of Contents
 1. [Phase A: Local Development](#phase-a-local-development)
