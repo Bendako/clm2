@@ -1,0 +1,34 @@
+# Python virtual environment
+backend/venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node dependencies
+node_modules/
+.npm
+.yarn
+.pnp.*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+/build
+/dist
+.next/
+out/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# IDE specific
+.idea/
+.vscode/
+*.swp
+*.swo 
