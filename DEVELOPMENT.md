@@ -1,14 +1,24 @@
-# LLM Continuous Training & Deployment Platform: Development Guide
+# LLM Continuous Training & Deployment Platform: Two-Phase Development Guide
 
-This guide provides step-by-step instructions for developing the LLM Continuous Training & Deployment Platform from start to finish. The platform enables companies to customize, continuously train, and deploy language models according to their specific needs. Our development approach will focus on first building a complete local version of the system before integrating with AWS infrastructure.
+This guide provides a two-phase approach to developing the LLM Continuous Training & Deployment Platform:
+1. **Phase A: Local Development** - Build a fully functional system with local components
+2. **Phase B: External Integration** - Integrate with AWS and other external systems
+
+This approach enables faster development cycles and thorough testing before moving to cloud infrastructure.
 
 ## Table of Contents
-1. [Development Environment Setup](#1-development-environment-setup)
-2. [System Architecture](#2-system-architecture)
-3. [Development Phases](#3-development-phases)
-4. [Implementation Details](#4-implementation-details)
-5. [Testing Strategy](#5-testing-strategy)
-6. [Deployment Process](#6-deployment-process)
+1. [Phase A: Local Development](#phase-a-local-development)
+   1. [Development Environment Setup](#1-development-environment-setup)
+   2. [Local System Architecture](#2-local-system-architecture)
+   3. [Local Implementation Plan](#3-local-implementation-plan)
+   4. [Testing the Local System](#4-testing-the-local-system)
+2. [Phase B: External Integration](#phase-b-external-integration)
+   1. [AWS Infrastructure Setup](#1-aws-infrastructure-setup)
+   2. [Migration Strategy](#2-migration-strategy)
+   3. [AWS-Specific Features](#3-aws-specific-features)
+   4. [Production Deployment](#4-production-deployment)
+
+# Phase A: Local Development
 
 ## 1. Development Environment Setup
 
@@ -17,50 +27,166 @@ This guide provides step-by-step instructions for developing the LLM Continuous 
 - Python 3.9+
 - Docker and Docker Compose
 - Git
-- LocalStack (for local AWS service emulation)
 
-### 1.2 Repository Setup
+### 1.2 Starting with the Existing Repository
 ```bash
-# Clone the repository
-git clone https://github.com/Bendako/clm2.git
-cd clm2
-
-# Create and set up development branches
+# Since the Git repository is already initialized, create development branch
 git checkout -b development
+
+# Pull latest changes if needed
+git pull origin master
 ```
 
-### 1.3 Local Environment Configuration
+### 1.3 Project Structure Setup
 ```bash
-# Install LocalStack for AWS service emulation
-pip install localstack
+# Create the basic directory structure
+mkdir -p backend/src/{auth,data,models,training,benchmarks,deployment,monitoring}
+mkdir -p frontend/src/{components,services,pages,utils,hooks,store}
+mkdir -p infrastructure/local
+mkdir -p scripts
 
-# Start LocalStack in a separate terminal
-localstack start
-
-# Verify LocalStack setup
-awslocal sts get-caller-identity
+# Create initial files
+touch backend/requirements.txt
+touch frontend/package.json
+touch docker-compose.yml
+touch docker-compose.prod.yml
 ```
 
-### 1.4 Local Development Environment
+### 1.4 Backend Setup
 ```bash
 # Create backend environment
 cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
 
-# Set up frontend
-cd ../frontend
-npm install
+# Create basic FastAPI application
+pip install fastapi uvicorn sqlalchemy pydantic pytest 
 
-# Start the local development servers
-cd ../
-docker-compose up
+# Save dependencies
+pip freeze > requirements.txt
+
+# Create main application file
+cat > src/main.py << EOF
+from fastapi import FastAPI
+
+app = FastAPI(title="LLM Platform API")
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the LLM Platform API"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+EOF
 ```
 
-## 2. System Architecture
+### 1.5 Frontend Setup
+```bash
+# Set up frontend with React and TypeScript
+cd ../frontend
+npx create-react-app . --template typescript
 
-The platform consists of the following components:
+# Install essential dependencies
+npm install axios react-router-dom @mui/material @mui/icons-material redux react-redux @reduxjs/toolkit d3
+
+# Update package.json with proxy for local development
+sed -i '' 's/"private": true,/"private": true,\n  "proxy": "http:\/\/localhost:8000",/g' package.json
+```
+
+### 1.6 Docker Configuration
+```bash
+# Create Docker Compose file for local development
+cd ..
+cat > docker-compose.yml << EOF
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/llm_platform
+    depends_on:
+      - db
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    stdin_open: true
+
+  db:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=llm_platform
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:5
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  postgres_data:
+  mongo_data:
+EOF
+
+# Create Dockerfiles for services
+cat > backend/Dockerfile << EOF
+FROM python:3.9
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+EOF
+
+cat > frontend/Dockerfile << EOF
+FROM node:16
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "start"]
+EOF
+```
+
+### 1.7 Start Local Development
+```bash
+# Start the local development environment
+docker-compose up --build
+```
+
+## 2. Local System Architecture
+
+The local implementation consists of these components:
 
 ### 2.1 Frontend (React.js + TypeScript)
 - Dashboard
@@ -80,249 +206,161 @@ The platform consists of the following components:
 - Deployment Service
 - Monitoring Service
 
-### 2.3 Infrastructure Abstraction Layer
-- Storage Provider Interface (Local/S3)
-- Compute Provider Interface (Local/SageMaker)
-- Identity Provider Interface (Local/IAM)
-- Serverless Function Interface (Local/Lambda)
-- Workflow Orchestration Interface (Local/Step Functions)
-- Monitoring Interface (Local/CloudWatch)
+### 2.3 Infrastructure Components (Local)
+- Docker for containerization
+- PostgreSQL for structured data
+- MongoDB for model metadata and benchmark results
+- Local file system for storage
+- Docker-based model serving
 
-### 2.4 Database 
-- Local PostgreSQL for structured data (users, configurations)
-- Local MongoDB for model metadata and benchmark results
+### 2.4 Abstraction Layer
+- Provider interfaces that will later support AWS services
+- Storage provider (local implementation)
+- Compute provider (local implementation)
+- Identity provider (local implementation)
 
-## 3. Development Phases
+## 3. Local Implementation Plan
 
-### Phase 1: Local Foundation (Months 1-3)
+### Month 1: Core Infrastructure
+- Week 1: Set up project structure and Docker environment
+- Week 2: Implement basic backend services
+- Week 3: Create frontend skeleton and authentication
+- Week 4: Develop database models and API endpoints
 
-#### Week 1-2: Project Setup
-- Set up repository structure
-- Configure CI/CD pipeline (GitHub Actions)
-- Create basic frontend structure
-- Set up backend services skeleton
-- Set up infrastructure abstraction interfaces
+### Month 2: Model Registry & Training
+- Week 5-6: Build model registry with local storage
+- Week 7-8: Implement local training pipeline using Docker
 
-#### Week 3-4: Core UI Development
-- Implement dashboard layout
-- Create navigation components
-- Build basic forms for model registry
-- Develop data visualization components
+### Month 3: Deployment & Benchmarking
+- Week 9-10: Create local model deployment system
+- Week 11-12: Build benchmarking and evaluation tools
 
-#### Week 5-8: Model Registry
-- Develop database schema for model versioning
-- Create API endpoints for model CRUD operations
-- Implement model comparison views
-- Build metadata management system
+### Month 4: Monitoring & User Experience
+- Week 13-14: Implement monitoring and logging
+- Week 15-16: Enhance UI/UX and data visualization
 
-#### Week 9-12: Local Deployment Pipeline
-- Develop Docker-based model serving
-- Create deployment configuration interface
-- Implement basic deployment workflows
-- Build local infrastructure provisioning scripts
+### Month 5: Testing & Refinement
+- Week 17-18: Comprehensive testing and bug fixing
+- Week 19-20: Performance optimization
 
-### Phase 2: Advanced Local Features (Months 4-6)
+### Month 6: Preparation for Integration
+- Week 21-22: Complete abstraction layer for external services
+- Week 23-24: Document API and prepare for AWS integration
 
-#### Week 13-16: Custom Benchmarks
-- Develop benchmark creation interface
-- Build benchmark execution engine
-- Create visualization for benchmark results
-- Implement benchmark versioning
+## 4. Testing the Local System
 
-#### Week 17-20: Continuous Training Pipeline
-- Create data ingestion workflows
-- Develop incremental training configuration
-- Build scheduling system
-- Implement data drift detection
-
-#### Week 21-24: Monitoring & Optimization
-- Develop resource monitoring features
-- Build comprehensive monitoring dashboards
-- Create alert system
-- Implement logging infrastructure
-
-### Phase 3: AWS Integration (Months 7-9)
-
-#### Week 25-28: AWS Infrastructure Setup
-- Implement AWS IAM integration
-- Set up S3 bucket structure
-- Configure SageMaker environments
-- Deploy RDS and DocumentDB instances
-- Create CloudWatch dashboards
-
-#### Week 29-32: Storage & Compute Migration
-- Implement S3 adapter for storage interface
-- Create SageMaker adapter for compute interface
-- Migrate data to AWS storage
-- Test model training on SageMaker
-
-#### Week 33-36: Deployment & Orchestration Integration
-- Implement AWS Lambda adapters
-- Create Step Functions workflows
-- Migrate deployment pipelines to AWS
-- Set up CloudWatch monitoring
-
-### Phase 4: Enterprise AWS Features (Months 10-12)
-
-#### Week 37-40: Multi-user & Security
-- Implement AWS Cognito integration
-- Create role-based access control with IAM
-- Build team management features
-- Develop audit logs with CloudTrail
-
-#### Week 41-44: Advanced AWS Optimizations
-- Implement cost optimization for AWS resources
-- Create auto-scaling configurations
-- Build AWS-specific performance enhancements
-- Develop cross-region deployment capabilities
-
-#### Week 45-48: Third-party Integrations
-- Develop API gateway integration
-- Create integration with popular MLOps tools
-- Build export/import capabilities for AWS ecosystem
-- Implement webhook system with API Gateway
-
-## 4. Implementation Details
-
-### 4.1 Frontend Implementation
-
-#### Tech Stack
-- React.js with TypeScript
-- Redux for state management
-- Material-UI for component library
-- D3.js for data visualization
-- React Router for navigation
-- Axios for API communication
-
-#### Key Components
-- `Dashboard`: Main overview display
-- `DataManager`: Data ingestion and preparation
-- `ModelRegistry`: Model version management
-- `TrainingConfigurator`: Training job setup
-- `BenchmarkManager`: Benchmark creation and execution
-- `DeploymentController`: Deployment management (local and AWS)
-- `MonitoringDashboard`: Real-time performance tracking
-
-### 4.2 Backend Implementation
-
-#### Tech Stack
-- Python with FastAPI
-- SQLAlchemy for ORM
-- Pydantic for data validation
-- Celery for task queue
-- boto3 for AWS integration (via abstraction layer)
-- PyTorch/TensorFlow for model operations
-
-#### Key Services
-- `AuthService`: Handle authentication and authorization
-- `DataService`: Manage data processing and versioning
-- `ModelService`: Handle model operations and versioning
-- `TrainingService`: Orchestrate training jobs
-- `BenchmarkService`: Manage benchmark creation and execution
-- `DeploymentService`: Handle deployments (local and AWS)
-- `MonitoringService`: Track model performance
-
-### 4.3 Infrastructure Abstraction
-
-#### Provider Interfaces
-- `StorageProvider`: Abstract interface for file storage operations
-  - `LocalStorageProvider`: Implementation for local development
-  - `S3StorageProvider`: Implementation for AWS integration
-
-- `ComputeProvider`: Abstract interface for model training/inference
-  - `DockerComputeProvider`: Implementation for local development
-  - `SageMakerComputeProvider`: Implementation for AWS integration
-
-- `IdentityProvider`: Abstract interface for authentication/authorization
-  - `LocalIdentityProvider`: Implementation for local development
-  - `IAMIdentityProvider`: Implementation for AWS integration
-
-## 5. Testing Strategy
-
-### 5.1 Unit Testing
+### 4.1 Unit Testing
 - Frontend: Jest + React Testing Library
 - Backend: pytest
-- Provider Interfaces: pytest with mocks
+- Provider interfaces: pytest with mocks
 
-### 5.2 Integration Testing
+### 4.2 Integration Testing
 - API Tests: Postman/Newman
 - Service Integration: pytest
-- Provider Integration: Tests against LocalStack
 
-### 5.3 End-to-End Testing
-- Local Environment: Cypress for frontend flows
-- AWS Environment: Cypress with AWS configuration
+### 4.3 End-to-End Testing
+- Cypress for frontend flows
 
-### 5.4 Performance Testing
+### 4.4 Performance Testing
 - JMeter for load testing
 - Lighthouse for frontend performance
 
-### 5.5 Security Testing
+### 4.5 Security Testing
 - OWASP ZAP for vulnerability scanning
-- AWS Config for AWS-specific compliance checking
 
-## 6. Deployment Process
+# Phase B: External Integration
 
-### 6.1 Local Development Environment
+## 1. AWS Infrastructure Setup
+
+### 1.1 Prerequisites
+- AWS Account with administrative access
+- AWS CLI installed and configured
+- LocalStack for testing AWS integrations locally
+
+### 1.2 AWS Environment Configuration
 ```bash
-# Deploy to local development
-docker-compose up
-```
+# Install AWS CLI if not already installed
+pip install awscli
 
-### 6.2 Local Production-like Environment
-```bash
-# Deploy to local production-like environment
-docker-compose -f docker-compose.prod.yml up
-```
-
-### 6.3 AWS Development Environment
-```bash
-# Configure AWS credentials
+# Configure AWS CLI with your credentials
 aws configure
 
-# Deploy to AWS development
-./scripts/deploy-aws.sh development
+# Install LocalStack for testing AWS services locally
+pip install localstack
 ```
 
-### 6.4 AWS Production Environment
+### 1.3 Infrastructure as Code Setup
 ```bash
-# Deploy to AWS production
+# Create Terraform or CloudFormation files
+mkdir -p infrastructure/aws/{iam,s3,sagemaker,rds,lambda}
+
+# Initialize Terraform (if using Terraform)
+cd infrastructure/aws
+terraform init
+```
+
+## 2. Migration Strategy
+
+### Month 7: AWS Core Infrastructure
+- Week 25-26: Set up IAM roles and permissions
+- Week 27-28: Create S3 buckets and RDS/DocumentDB instances
+
+### Month 8: AWS Service Adapters
+- Week 29-30: Implement S3 storage adapter
+- Week 31-32: Create SageMaker compute adapter
+- Week 33-34: Build AWS Lambda and Step Functions integration
+
+### Month 9: Migration Process
+- Week 35-36: Migrate data to AWS storage
+- Week 37-38: Transition to AWS compute resources
+- Week 39-40: Implement CloudWatch monitoring
+
+## 3. AWS-Specific Features
+
+### Month 10: Advanced AWS Features
+- Week 41-42: Implement AWS Cognito integration
+- Week 43-44: Create cross-region capabilities
+- Week 45-46: Build cost optimization features
+- Week 47-48: Develop auto-scaling configurations
+
+### Month 11: Enterprise Features
+- Week 49-50: Create multi-user access with IAM
+- Week 51-52: Implement auditing with CloudTrail
+- Week 53-54: Build approval workflows
+- Week 55-56: Develop advanced security features
+
+### Month 12: Integration & Expansion
+- Week 57-58: Integrate with API Gateway
+- Week 59-60: Connect with other AWS services
+- Week 61-62: Implement webhooks and external triggers
+- Week 63-64: Build integration with other MLOps tools
+
+## 4. Production Deployment
+
+### 4.1 Deployment Process
+```bash
+# Configure AWS credentials if not already done
+aws configure
+
+# Deploy to AWS development environment
+./scripts/deploy-aws.sh development
+
+# Deploy to AWS production environment
 ./scripts/deploy-aws.sh production
 ```
 
-### 6.5 Continuous Deployment
+### 4.2 Continuous Deployment
 - GitHub Actions workflow:
   1. Build and test on every push
   2. Deploy to local environment on merge to development branch
   3. Deploy to AWS development on merge to staging branch
   4. Deploy to AWS production on release creation
 
-## 7. Getting Started with Implementation
-
-To begin implementing the platform:
-
-1. Start with setting up the local development environment as described in section 1
-2. Implement the infrastructure abstraction interfaces first
-3. Build the core UI components and backend services
-4. Develop the model registry with local storage
-5. Implement the local training and deployment pipeline
-6. Add benchmarking and monitoring capabilities
-7. Focus on AWS integration after the local system is fully functional
-8. Expand features according to the development phases outlined above
-
-## 8. Documentation
-
-Maintain documentation for:
-- API endpoints
-- Database schema
-- Provider interfaces
-- AWS resources (when integrated)
-- User workflows
-- Development processes
-- Deployment procedures
-
-Keep the documentation up-to-date as the project evolves to ensure seamless development and onboarding of new team members.
+### 4.3 AWS Environment Monitoring
+- CloudWatch dashboards for monitoring
+- AWS Config for compliance checking
+- CloudTrail for audit logging
 
 ---
 
-This development guide provides a comprehensive roadmap for building the LLM Continuous Training & Deployment Platform first as a local system and then integrating it with AWS. This approach allows for faster development cycles during the initial phases and a smooth transition to cloud infrastructure when the core functionality is stable. 
+This development guide provides a clear two-phase approach: first building a complete local system, then integrating with AWS. This allows for faster development cycles, easier testing, and a smooth transition to cloud infrastructure. 
