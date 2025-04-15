@@ -6,6 +6,15 @@ This guide provides a two-phase approach to developing the LLM Continuous Traini
 
 This approach enables faster development cycles and thorough testing before moving to cloud infrastructure.
 
+## Current Progress
+- [x] Project setup and planning
+- [x] Updated development guide to use Next.js instead of React
+- [x] 1.3 Project Structure Setup - Completed
+- [x] 1.4 Backend Setup - Completed
+- [ ] 1.5 Frontend Setup
+- [ ] 1.6 Docker Configuration
+- [ ] 1.7 Start Local Development
+
 ## Table of Contents
 1. [Phase A: Local Development](#phase-a-local-development)
    1. [Development Environment Setup](#1-development-environment-setup)
@@ -83,15 +92,28 @@ EOF
 
 ### 1.5 Frontend Setup
 ```bash
-# Set up frontend with React and TypeScript
+# Set up frontend with Next.js and TypeScript
 cd ../frontend
-npx create-react-app . --template typescript
+npx create-next-app@latest . --typescript --eslint --tailwind --app --src-dir
 
 # Install essential dependencies
-npm install axios react-router-dom @mui/material @mui/icons-material redux react-redux @reduxjs/toolkit d3
+npm install axios @emotion/react @emotion/styled redux react-redux @reduxjs/toolkit d3
 
-# Update package.json with proxy for local development
-sed -i '' 's/"private": true,/"private": true,\n  "proxy": "http:\/\/localhost:8000",/g' package.json
+# Create custom API configuration for backend connection
+cat > src/lib/api.ts << EOF
+import axios from 'axios';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+export const api = axios.create({
+  baseURL: API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export default api;
+EOF
 ```
 
 ### 1.6 Docker Configuration
@@ -174,7 +196,7 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
 EOF
 ```
 
@@ -188,7 +210,7 @@ docker-compose up --build
 
 The local implementation consists of these components:
 
-### 2.1 Frontend (React.js + TypeScript)
+### 2.1 Frontend (Next.js + TypeScript)
 - Dashboard
 - Data Management Interface
 - Model Registry
