@@ -11,7 +11,7 @@ This approach enables faster development cycles and thorough testing before movi
 - [x] Updated development guide to use Next.js instead of React
 - [x] 1.3 Project Structure Setup - Completed
 - [x] 1.4 Backend Setup - Completed
-- [ ] 1.5 Frontend Setup
+- [x] 1.5 Frontend Setup - Completed
 - [ ] 1.6 Docker Configuration
 - [ ] 1.7 Start Local Development
 
