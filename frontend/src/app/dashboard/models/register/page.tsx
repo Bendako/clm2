@@ -75,7 +75,7 @@ export default function RegisterModel() {
                   type="text"
                   id="modelName"
                   name="modelName"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="LLM-Transformer-v3"
                   required
                 />
@@ -89,7 +89,7 @@ export default function RegisterModel() {
                   type="text"
                   id="modelVersion"
                   name="modelVersion"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="1.2.0"
                   required
                 />
@@ -102,10 +102,10 @@ export default function RegisterModel() {
                 <select
                   id="modelType"
                   name="modelType"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                   required
                 >
-                  <option value="">Select a type</option>
+                  <option value="" className="text-gray-500">Select a type</option>
                   <option value="Text Generation">Text Generation</option>
                   <option value="Embeddings">Embeddings</option>
                   <option value="Code Generation">Code Generation</option>
@@ -122,10 +122,10 @@ export default function RegisterModel() {
                 <select
                   id="framework"
                   name="framework"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                   required
                 >
-                  <option value="">Select a framework</option>
+                  <option value="" className="text-gray-500">Select a framework</option>
                   <option value="PyTorch">PyTorch</option>
                   <option value="TensorFlow">TensorFlow</option>
                   <option value="JAX">JAX</option>
@@ -143,7 +143,7 @@ export default function RegisterModel() {
                     type="text"
                     id="parameters"
                     name="parameters"
-                    className="w-full py-2 px-3 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full py-2 px-3 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                     placeholder="7"
                     required
                   />
@@ -160,10 +160,10 @@ export default function RegisterModel() {
                 <select
                   id="status"
                   name="status"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                   required
                 >
-                  <option value="">Select a status</option>
+                  <option value="" className="text-gray-500">Select a status</option>
                   <option value="development">Development</option>
                   <option value="staging">Staging</option>
                   <option value="production">Production</option>
@@ -183,7 +183,7 @@ export default function RegisterModel() {
                 id="description"
                 name="description"
                 rows={4}
-                className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                 placeholder="This model is a state-of-the-art large language model trained on a diverse dataset of text and code. It excels at content generation, summarization, and conversational tasks."
                 required
               />
@@ -202,7 +202,7 @@ export default function RegisterModel() {
                   type="url"
                   id="modelRepo"
                   name="modelRepo"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="https://github.com/organization/model-repo"
                 />
               </div>
@@ -215,7 +215,7 @@ export default function RegisterModel() {
                   type="text"
                   id="commitHash"
                   name="commitHash"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="8fe3a9bc7d2f5a8e6cb1b5c8f9d7a3b2e1d9c8b7"
                 />
               </div>
@@ -260,7 +260,7 @@ export default function RegisterModel() {
                   min="0"
                   max="100"
                   step="0.1"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="92.5"
                 />
               </div>
@@ -274,7 +274,7 @@ export default function RegisterModel() {
                   id="latency"
                   name="latency"
                   min="0"
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="120"
                 />
               </div>
@@ -287,7 +287,7 @@ export default function RegisterModel() {
                   id="evaluationNotes"
                   name="evaluationNotes"
                   rows={3}
-                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500"
                   placeholder="Evaluated on MMLU benchmark with 5-shot prompting. The model achieved 92.5% accuracy on reasoning tasks and 87.3% on knowledge-based questions."
                 />
               </div>
