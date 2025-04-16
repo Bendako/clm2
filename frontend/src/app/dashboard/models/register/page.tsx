@@ -1,25 +1,36 @@
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
-import DashboardLayout from "../../../components/DashboardLayout";
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import DashboardLayout from "../../../components/DashboardLayout";
 
-export default async function RegisterModel() {
-  const user = await currentUser();
+export default function RegisterModel() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Example user for client component
+  const user = {
+    id: "user123",
+    firstName: "Demo",
+    lastName: "User",
+    emailAddress: "demo@example.com",
+  };
 
-  if (!user) {
-    redirect("/sign-in");
-  }
-
-  // Create a serialized user object with only the needed data
-  const serializedUser = {
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    emailAddress: user.emailAddresses[0]?.emailAddress || null,
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    setTimeout(() => {
+      setIsSubmitting(false);
+      alert("Model registration submitted successfully!");
+      router.push("/dashboard/models");
+    }, 1500);
   };
 
   return (
-    <DashboardLayout user={serializedUser}>
+    <DashboardLayout user={user}>
       {/* Breadcrumbs */}
       <nav className="bg-white p-4 rounded shadow mb-6">
         <ol className="flex text-sm">
@@ -51,7 +62,7 @@ export default async function RegisterModel() {
       
       {/* Registration Form */}
       <div className="bg-white p-6 rounded shadow">
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Basic Information */}
           <div>
             <h2 className="text-lg font-semibold mb-4 text-[#232f3e]">Basic Information</h2>
@@ -65,7 +76,7 @@ export default async function RegisterModel() {
                   id="modelName"
                   name="modelName"
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., Text Generation Transformer"
+                  placeholder="LLM-Transformer-v3"
                   required
                 />
               </div>
@@ -79,7 +90,7 @@ export default async function RegisterModel() {
                   id="modelVersion"
                   name="modelVersion"
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., 1.0.0"
+                  placeholder="1.2.0"
                   required
                 />
               </div>
@@ -133,7 +144,7 @@ export default async function RegisterModel() {
                     id="parameters"
                     name="parameters"
                     className="w-full py-2 px-3 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="e.g., 7"
+                    placeholder="7"
                     required
                   />
                   <span className="inline-flex items-center px-3 border border-l-0 border-gray-300 bg-gray-50 text-gray-500 rounded-r">
@@ -173,7 +184,7 @@ export default async function RegisterModel() {
                 name="description"
                 rows={4}
                 className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Provide a detailed description of the model, its capabilities, and use cases..."
+                placeholder="This model is a state-of-the-art large language model trained on a diverse dataset of text and code. It excels at content generation, summarization, and conversational tasks."
                 required
               />
             </div>
@@ -192,7 +203,7 @@ export default async function RegisterModel() {
                   id="modelRepo"
                   name="modelRepo"
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., https://github.com/username/model-repo"
+                  placeholder="https://github.com/organization/model-repo"
                 />
               </div>
               
@@ -205,7 +216,7 @@ export default async function RegisterModel() {
                   id="commitHash"
                   name="commitHash"
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., a1b2c3d4"
+                  placeholder="8fe3a9bc7d2f5a8e6cb1b5c8f9d7a3b2e1d9c8b7"
                 />
               </div>
               
@@ -226,7 +237,7 @@ export default async function RegisterModel() {
                       <p className="pl-1">or drag and drop</p>
                     </div>
                     <p className="text-xs text-gray-500">
-                      Upload model weights, configs, and other relevant files
+                      Supported formats: .bin, .pt, .safetensors, .gguf, .json, .yaml
                     </p>
                   </div>
                 </div>
@@ -250,7 +261,7 @@ export default async function RegisterModel() {
                   max="100"
                   step="0.1"
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., 92.5"
+                  placeholder="92.5"
                 />
               </div>
               
@@ -264,7 +275,7 @@ export default async function RegisterModel() {
                   name="latency"
                   min="0"
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="e.g., 120"
+                  placeholder="120"
                 />
               </div>
               
@@ -277,7 +288,7 @@ export default async function RegisterModel() {
                   name="evaluationNotes"
                   rows={3}
                   className="w-full py-2 px-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Describe the evaluation methodology and any additional metrics..."
+                  placeholder="Evaluated on MMLU benchmark with 5-shot prompting. The model achieved 92.5% accuracy on reasoning tasks and 87.3% on knowledge-based questions."
                 />
               </div>
             </div>
@@ -293,9 +304,18 @@ export default async function RegisterModel() {
             </Link>
             <button
               type="submit"
-              className="px-4 py-2 bg-[#232f3e] hover:bg-[#31465f] text-white rounded"
+              className="px-4 py-2 bg-[#232f3e] hover:bg-[#31465f] text-white rounded flex items-center"
+              disabled={isSubmitting}
             >
-              Register Model
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </>
+              ) : "Register Model"}
             </button>
           </div>
         </form>
